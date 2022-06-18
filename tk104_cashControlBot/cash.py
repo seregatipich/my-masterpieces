@@ -69,7 +69,7 @@ def add_expense_date(message):
 
 def add_expense_amount(message):
     expense_amount = message.text
-    expense_handler(expense_name, expense_date, expense_amount)
+    expense_handler(expense_name, expense_date, expense_amount, user_id=message.from_user.id)
     bot.send_message(message.chat.id, 'Expense added')
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     button_1 = types.KeyboardButton('Add expense')
