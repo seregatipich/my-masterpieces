@@ -14,23 +14,27 @@ def first_start_handler():
 
 
 def save_user(user_id):
+    conn = sqlite3.connect('bot.db')
+    cursor = conn.cursor()
     try:
-        conn = sqlite3.connect('bot.db')
-        cursor = conn.cursor()
         cursor.execute(f'INSERT INTO users (id) VALUES ({user_id})')
-        conn.commit()
-        cursor.close()
     except sqlite3.Error as error:
         print(error)
     finally:
-        conn.close()
+        conn.commit()
+        cursor.close()
 
 
 def expense_handler(expense_name: str, expense_date: str, expense_amount: int, user_id: int):
     conn = sqlite3.connect('bot.db')
     cursor = conn.cursor()
-    sqlite_insert_query = f'INSERT INTO expenses(id, name, date, amount) ' \
-                          f'VALUES ({user_id}, {expense_name}, {expense_date}, {expense_amount});'
-    cursor.execute(sqlite_insert_query)
-    conn.commit()
-    cursor.close()
+    params = (user_id, expense_date, expense_amount, expense_name)
+    try:
+        cursor.execute(f'INSERT INTO expenses (id, date, amount, name) VALUES (?, ?, ?, ?)', params)
+    except sqlite3.Error as error:
+        print(error)
+    finally:
+        conn.commit()
+        cursor.close()
+
+
