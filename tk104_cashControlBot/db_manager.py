@@ -1,17 +1,28 @@
 import sqlite3
 
 
-def first_start_handler():
-    conn = sqlite3.connect('bot.db')
-    cursor = conn.cursor()
-    cursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER UNIQUE PRIMARY KEY, userName TEXT)')
-    cursor.execute(
-        'CREATE TABLE IF NOT EXISTS expenses (exp_id INTEGER UNIQUE PRIMARY KEY, id INTEGER, '
-        'date TEXT, amount INTEGER, name TEXT, foreign key (id) references users(id))'
-    )
-    cursor.close()
-    conn.close()
+class Dbconnection:
+    def __enter__(self):
+        self.conn = sqlite3.connect('bot.db')
+        self.cursor = self.conn.cursor()
+        return self.cursor
 
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.cursor.close()
+        self.conn.close()
+
+
+def first_start_handler():
+    with Dbconnection() as db:
+        conn, cursor = db
+        cursor.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER UNIQUE PRIMARY KEY, userName TEXT)')
+        conn.commit()
+        cursor.execute(
+            'CREATE TABLE IF NOT EXISTS expenses (exp_id INTEGER UNIQUE PRIMARY KEY, id INTEGER, '
+            'date TEXT, amount INTEGER, name TEXT, foreign key (id) references users(id))'
+        )
+        conn.commit()
+        return True
 
 def save_user(user_id):
     conn = sqlite3.connect('bot.db')
@@ -36,5 +47,3 @@ def expense_handler(expense_name: str, expense_date: str, expense_amount: int, u
     finally:
         conn.commit()
         cursor.close()
-
-
