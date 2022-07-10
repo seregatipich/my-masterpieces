@@ -11,24 +11,8 @@ def start_message(message):
     markup = telebot.types.InlineKeyboardMarkup()
     markup.add(telebot.types.InlineKeyboardButton(text='Да', callback_data=100))
     bot.send_message(message.chat.id, 'Привет! Я - лотерейный бот, ты хочешь начать игру?', reply_markup=markup)
+
     
-    markup = telebot.types.InlineKeyboardMarkup()
-    markup.add(telebot.types.InlineKeyboardButton(text='1', callback_data=1))
-    markup.add(telebot.types.InlineKeyboardButton(text='2', callback_data=2))
-    markup.add(telebot.types.InlineKeyboardButton(text='3', callback_data=3))
-    markup.add(telebot.types.InlineKeyboardButton(text='4', callback_data=4))
-    markup.add(telebot.types.InlineKeyboardButton(text='5', callback_data=5))
-
-# def play(call):
-#     # markup = telebot.types.InlineKeyboardMarkup()
-#     # markup.add(telebot.types.InlineKeyboardButton(text='1', callback_data=1))
-#     # markup.add(telebot.types.InlineKeyboardButton(text='2', callback_data=2))
-#     # markup.add(telebot.types.InlineKeyboardButton(text='3', callback_data=3))
-#     # markup.add(telebot.types.InlineKeyboardButton(text='4', callback_data=4))
-#     # markup.add(telebot.types.InlineKeyboardButton(text='5', callback_data=5))
-#     # bot.send_message(call.message.chat.id, 'Выбери одну цифру', reply_markup=markup) # удалить нужно отсюда
-#     # bot.edit_message_reply_markup(call.message.chat.id, message_id=call.message.message_id)  # удаляем с 12 строки
-
     markup = telebot.types.InlineKeyboardMarkup()
     markup.add(telebot.types.InlineKeyboardButton(text='1', callback_data=1))
     markup.add(telebot.types.InlineKeyboardButton(text='2', callback_data=2))
